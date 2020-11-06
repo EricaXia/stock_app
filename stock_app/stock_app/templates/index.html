@@ -1,0 +1,26 @@
+{% extends "bootstrap/base.html" %} 
+
+{% block title %}This is an example page
+{% endblock %} 
+
+{% block navbar %}
+<div class="navbar navbar-fixed-top">
+  <!-- ... -->
+  <p>Navbar Example</p>
+</div>
+{% endblock %} 
+
+{% block content %}
+<h1>DSCI 551 Stock App Project</h1>
+
+<h2>News Articles:</h2>
+<!-- <p>{{ res }}</p> -->
+
+{% for res in results %}
+  <p></p>
+  <p>{{ res }}</p>
+  <p></p>
+{% endfor %}
+
+
+{% endblock %}

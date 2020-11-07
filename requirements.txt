@@ -67,6 +67,7 @@ flake8==3.8.3
 Flask==1.1.2
 Flask-Bootstrap==3.3.7.1
 Flask-PyMongo==2.3.0
+Flask-SQLAlchemy==2.4.4
 fsspec==0.7.4
 future==0.18.2
 gast==0.3.3

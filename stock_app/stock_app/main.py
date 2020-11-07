@@ -17,3 +17,9 @@ def index():
     # sql_results = sql_alchemy_db.session.query(company_info).all()
 
     return render_template('index.html', mdb_results=mdb_results)
+
+
+## Page template to show company stock info
+@main.route('/page')
+def show():
+    return render_template('page.html')

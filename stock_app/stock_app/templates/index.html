@@ -15,23 +15,26 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='styles.css') }}"
     />
+
   </head>
 
-  <body>
-    {% block content %}
-
+<body>
+{# Main Header #}
     <div class="jumbotron">
       <div class="text-center">
         <h1 class="display-4">DSCI 551 Stock App Project</h1>
         <p class="lead">**Search bar will go here**</p>
       </div>
     </div>
+  {# End Main Header #}
 
+<!--Main Layout-->
+{% block content %}
     {# Begin stock and article content display here #}
     <div class="row">
       {# Stock prices column #}
       <div class="col-lg">
-        <div class="container">
+        <div class="mycontainer">
           <div class="toprow">
             <div class="myrow"><h2>Company Information</h2></div>
           </div>
@@ -55,7 +58,7 @@
 
       {# News articles column #}
       <div class="col-lg">
-        <div class="container">
+        <div class="mycontainer">
           <div class="toprow">
             <div class="myrow"><h2>News Articles</h2></div>
           </div>
@@ -74,6 +77,9 @@
         </div>
       </div>
     </div>
+
+
+
     {% endblock %}
   </body>
 </html>

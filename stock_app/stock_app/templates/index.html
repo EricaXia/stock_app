@@ -1,26 +1,79 @@
-{% extends "bootstrap/base.html" %} 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Stock App</title>
 
-{% block title %}This is an example page
-{% endblock %} 
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
 
-{% block navbar %}
-<div class="navbar navbar-fixed-top">
-  <!-- ... -->
-  <p>Navbar Example</p>
-</div>
-{% endblock %} 
+  <body>
+    {% block content %}
 
-{% block content %}
-<h1>DSCI 551 Stock App Project</h1>
+    <div class="jumbotron">
+      <div class="text-center">
+        <h1 class="display-4">DSCI 551 Stock App Project</h1>
+        <p class="lead">**Search bar will go here**</p>
+      </div>
+    </div>
 
-<h2>News Articles:</h2>
-<!-- <p>{{ res }}</p> -->
+    {# Begin stock and article content display here #}
+    <div class="row">
+      {# Stock prices column #}
+      <div class="col-lg">
+        <div class="container">
+          <div class="toprow">
+            <div class="myrow"><h2>Company Information</h2></div>
+          </div>
+          {% for c in range(15) %}
+          <div class="myrow">
+            <div class="col-lg">
+              <div class="card">
+                <div class="card w-100">
+                  <div class="card-body">
+                    <h5 class="card-title">Company Name</h5>
+                    <p class="card-text">Stock Info</p>
+                    {# <a href="#" class="btn btn-secondary">View here</a> #}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
 
-{% for res in results %}
-  <p></p>
-  <p>{{ res }}</p>
-  <p></p>
-{% endfor %}
+      {# News articles column #}
+      <div class="col-lg">
+        <div class="container">
+          <div class="toprow">
+            <div class="myrow"><h2>News Articles</h2></div>
+          </div>
 
+          {% for res in mdb_results %}
+          <div class="card w-100">
+            <div class="card-body">
+              <h5 class="card-title"><h4><a href="{{ res['link'] }}">{{ res['title'] }}</a></h4>
+              <p class="card-text">{{ res['dt'] }} | {{ res['media'] }} | {{ res['Symbol'] }}</p>
+              <p class="card-text">{{ res['desc'] }}</p>
 
-{% endblock %}
+            </div>
+          </div>
+
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endblock %}
+  </body>
+</html>

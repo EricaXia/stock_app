@@ -1,7 +1,6 @@
 import os
 
 # MONGO_URI = os.environ.get('MONGO_URI')
-
 MONGO_URI = 'mongodb+srv://dsci551:123@cluster0.mhniy.gcp.mongodb.net/news?retryWrites=true&w=majority'
 
 

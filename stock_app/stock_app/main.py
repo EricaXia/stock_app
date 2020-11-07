@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, Flask, request, make_response
 from flask_bootstrap import Bootstrap
 from .extensions import mongo
 import pprint
@@ -8,7 +8,6 @@ main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
-
     ## Return Mongodb results
     news_col = mongo.db.articles
     # res = news_col.find_one()

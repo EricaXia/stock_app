@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, Flask, request, make_response
 from .extensions import mongo, open_connection, get_companies, get_prices
-# import pprint
+from pymysql import ProgrammingError
 
 main = Blueprint('main', __name__)
 
@@ -27,3 +27,9 @@ def show(sym):
 @main.errorhandler(404)
 def not_found():
     return make_response(render_template("404.html"), 404)
+
+
+## If stock taable is not found, return error page
+@main.errorhandler(ProgrammingError)
+def handle_error(e):
+    return '<h1>Table not found!</h1>', 400

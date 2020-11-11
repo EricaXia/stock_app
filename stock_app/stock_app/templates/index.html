@@ -38,15 +38,14 @@
           <div class="toprow">
             <div class="myrow"><h2>Company Information</h2></div>
           </div>
-          {% for c in range(15) %}
+          {% for res_dict in sql_results %}
           <div class="myrow">
             <div class="col-lg">
               <div class="card">
                 <div class="card w-100">
                   <div class="card-body">
-                    <h5 class="card-title">Company Name</h5>
-                    <p class="card-text">Stock Info</p>
-                    {# <a href="#" class="btn btn-secondary">View here</a> #}
+                    <h5 class="card-title">{{ res_dict['name'] }}</h5>
+                    <p class="card-text">{{ res_dict['symbol'] }} | {{ res_dict['sector'] }}</p>
                   </div>
                 </div>
               </div>

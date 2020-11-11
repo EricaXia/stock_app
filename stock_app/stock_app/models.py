@@ -1,4 +1,4 @@
-from .extensions import mongo, sql_alchemy_db
+from .extensions import mongo
 import json
 
 ## TODO: add data model objects here

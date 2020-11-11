@@ -16,6 +16,11 @@
       href="{{ url_for('static', filename='styles.css') }}"
     />
 
+    <link 
+      rel="shortcut icon" 
+      href="{{ url_for('static', filename='favicon.ico') }}"
+    />
+
   </head>
 
 <body>
@@ -44,8 +49,14 @@
               <div class="card">
                 <div class="card w-100">
                   <div class="card-body">
-                    <h5 class="card-title">{{ res_dict['name'] }}</h5>
+                    <h5 class="card-title">
+                      <h4>
+                        <a href="{{ res_dict['symbol'] }}" target="_blank">{{ res_dict['name'] }}</a>
+                      </h4>
+
+
                     <p class="card-text">{{ res_dict['symbol'] }} | {{ res_dict['sector'] }}</p>
+
                   </div>
                 </div>
               </div>
@@ -65,8 +76,8 @@
           {% for res in mdb_results %}
           <div class="card w-100">
             <div class="card-body">
-              <h5 class="card-title"><h4><a href="{{ res['link'] }}">{{ res['title'] }}</a></h4>
-              <p class="card-text">{{ res['dt'] }} | {{ res['media'] }} | {{ res['Symbol'] }}</p>
+              <h5 class="card-title"><h4><a href="{{ res['link'] }}" target="_blank">{{ res['title'] }}</a></h4>
+              <p class="card-text">{{ res['dt'] }} | {{ res['media'] }} | <b><a href="{{ res['Symbol'] }}" target="_blank">{{ res['Symbol'] }}</a></b></p>
               <p class="card-text">{{ res['desc'] }}</p>
 
             </div>

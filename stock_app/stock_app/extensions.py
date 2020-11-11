@@ -34,7 +34,8 @@ def open_connection():
 def get_companies(limit):
     conn = open_connection()
     with conn.cursor() as cursor:
-        result = cursor.execute(f'SELECT * FROM CompanyInformation LIMIT {limit};')
+        q = f'SELECT * FROM CompanyInformation LIMIT {limit};'
+        result = cursor.execute(q)
         companies = cursor.fetchall()
         if result > 0:
             # got_c = jsonify(companies)
@@ -44,7 +45,30 @@ def get_companies(limit):
     conn.close()
     return got_c
 
+def get_prices(symbol, limit):
+    conn = open_connection()
+    with conn.cursor() as cursor:
+        q = f"""
+            SELECT *
+            FROM {symbol}
+            ORDER BY date DESC
+            LIMIT {limit};
+        """
+        result = cursor.execute(q)
+        prices = cursor.fetchall()
+        if result > 0:
+            got_p = prices
+        else:
+            got_p = 'Nothing in DB'
+    conn.close()
+    return got_p
+                    
+
 
 if __name__ == "__main__":
     print("Test db connection to MySQL")
-    print(get_companies(limit=15))
+    # print(get_companies(limit=15))
+    prices = get_prices('A', 10)
+    for p in prices:
+        print(p)
+        print(type(p))

@@ -43,6 +43,7 @@ def get_companies(limit):
     conn.close()
     return got_c
 
+
 def get_prices(symbol, limit):
     conn = open_connection()
     with conn.cursor() as cursor:
@@ -62,6 +63,23 @@ def get_prices(symbol, limit):
     return got_p
                     
 
+def search_by_date(symbol, date):
+    conn = open_connection()
+    with conn.cursor() as cursor:
+        q = f"""
+            SELECT *
+            FROM {symbol}
+            WHERE date = {date};
+        """
+        result = cursor.execute(q)
+        prices = cursor.fetchall()
+        if result > 0:
+            got_p = prices
+        else:
+            got_p = 'Nothing in DB'
+    conn.close()
+    return got_p
+                    
 
 if __name__ == "__main__":
     print("Test db connection to MySQL")

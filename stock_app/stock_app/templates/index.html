@@ -25,13 +25,32 @@
 
 <body>
 {# Main Header #}
+
     <div class="jumbotron">
       <div class="text-center">
         <h1 class="display-4">DSCI 551 Stock App Project</h1>
-        <p class="lead">**Search bar will go here**</p>
+        <p>Erica Xia, Yuka Kaku, Dalia Ruiz</p>
       </div>
+
+        {# Search form #}
+      {% from "_formhelpers.html" import render_field %}
+
+
+      <form method=post>
+        <div class="text-center">
+        {{ render_field(form.symbol) }}
+        
+        </div>
+      </form>
+
+
+
     </div>
   {# End Main Header #}
+
+
+
+
 
 <!--Main Layout-->
 {% block content %}

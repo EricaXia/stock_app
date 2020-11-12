@@ -16,8 +16,8 @@
       href="{{ url_for('static', filename='styles.css') }}"
     />
 
-    <link 
-      rel="shortcut icon" 
+    <link
+      rel="shortcut icon"
       href="{{ url_for('static', filename='favicon.ico') }}"
     />
   </head>
@@ -26,6 +26,16 @@
     {% block content %}
     <div class="text-center">
       <h1>{{ symbol }}</h1>
+
+      {# Search form #}
+      <div class="form-inline justify-content-center active-cyan-4 mb-4">
+        <input
+          class="form-control form-control-sm ml-3 w-50"
+          type="text"
+          placeholder="Search"
+          aria-label="Search"
+        />
+      </div>
 
       {# Price table starts here #}
       <table class="table">

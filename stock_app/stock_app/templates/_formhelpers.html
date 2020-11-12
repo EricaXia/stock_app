@@ -1,0 +1,8 @@
+{% macro render_field(field) %}
+<div style="display:inline;">
+<div class="form-inline justify-content-center active-cyan-4 mb-4">
+    {{ field(class_="form-control form-control ml-3 w-50")|safe }} 
+<button type="submit" class="btn btn-primary">Search</button>
+</div>
+</div>
+{% endmacro %}

@@ -1,7 +1,5 @@
 from flask_pymongo import PyMongo
-# from flask_sqlalchemy import SQLAlchemy
 import pymysql
-# from flask import jsonify
 
 # Mongo database connector
 mongo = PyMongo()

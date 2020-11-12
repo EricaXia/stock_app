@@ -32,18 +32,13 @@
         <p>Erica Xia, Yuka Kaku, Dalia Ruiz</p>
       </div>
 
-        {# Search form #}
+      {# Search form #}
       {% from "_formhelpers.html" import render_field %}
-
-
       <form method=post>
         <div class="text-center">
         {{ render_field(form.symbol) }}
-        
         </div>
       </form>
-
-
 
     </div>
   {# End Main Header #}

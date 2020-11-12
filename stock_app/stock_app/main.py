@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, Flask, request, make_response, redirect, url_for
 from pymysql import ProgrammingError
 from .extensions import mongo, open_connection, get_companies, get_prices
-from .forms import SymSearchForm
+from .forms import SymSearchForm, DateSearchForm
 
 main = Blueprint('main', __name__)
 
@@ -24,10 +24,17 @@ def index():
 
 
 ## Page template to show company stock info
-@main.route('/<sym>', methods=['GET'])
+@main.route('/<sym>', methods=['GET', 'POST'])
 def show(sym):
-    price_results = get_prices(symbol=sym, limit='30')   ## a list of dicts
-    return render_template('page.html', symbol=sym, price_results=price_results)
+    price_results = get_prices(symbol=sym, limit='30')  ## a list of dicts
+    
+    ## Search feature
+    form = DateSearchForm(request.form)
+    # if request.method == 'POST':
+    #     dt_query = form.date.data
+        # return (QUERY TABLE AND RETURN PRICES FOR THAT DATE)
+
+    return render_template('page.html', symbol=sym, price_results=price_results, form=form)
 
 
 ## Page not found

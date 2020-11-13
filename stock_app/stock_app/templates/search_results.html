@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Stock App</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='favicon.ico') }}"
+    />
+  </head>
+
+  <body>
+    {% block content %}
+    <div class="text-center">
+      <h1>{{ symbol }}</h1>
+
+      {# Search form #}
+      {% from "_formhelpers.html" import render_field %}
+      <form method=post>
+        <div class="text-center">
+        {{ render_field(form.date) }}
+        </div>
+      </form>
+
+      {# Price table starts here #}
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Open</th>
+            <th scope="col">High</th>
+            <th scope="col">Low</th>
+            <th scope="col">Close</th>
+            <th scope="col">Volume</th>
+            <th scope="col">Dividends</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for p_dict in price_results %} {# p_dict keys: date, open, high,
+          low, close, volumne, dividends #}
+          <tr>
+            <th scope="row">{{ p_dict['date'] }}</th>
+            <td>{{ p_dict['open'] }}</td>
+            <td>{{ p_dict['high'] }}</td>
+            <td>{{ p_dict['low'] }}</td>
+            <td>{{ p_dict['close'] }}</td>
+            <td>{{ p_dict['volume'] }}</td>
+            <td>{{ p_dict['dividends'] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {% endblock %}
+  </body>
+</html>

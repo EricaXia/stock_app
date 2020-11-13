@@ -69,7 +69,7 @@ def search_by_date(symbol, date):
         q = f"""
             SELECT *
             FROM {symbol}
-            WHERE date = {date};
+            WHERE date = '{date}';
         """
         result = cursor.execute(q)
         prices = cursor.fetchall()
@@ -84,7 +84,10 @@ def search_by_date(symbol, date):
 if __name__ == "__main__":
     print("Test db connection to MySQL")
     # print(get_companies(limit=15))
-    prices = get_prices('A', 10)
-    for p in prices:
-        print(p)
-        print(type(p))
+    
+    # prices = get_prices('A', 10)
+    # for p in prices:
+    #     print(p)
+    #     print(type(p))
+
+    # print(search_by_date('AAPL', '2020-11-02'))

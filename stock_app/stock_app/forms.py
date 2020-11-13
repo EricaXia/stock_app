@@ -1,7 +1,7 @@
-from wtforms import Form, StringField
+from wtforms import Form, StringField, validators, DateField
 
 class SymSearchForm(Form):
     symbol = StringField('Symbol')
 
 class DateSearchForm(Form):
-    date = StringField('Date')
+    date = DateField('Date')

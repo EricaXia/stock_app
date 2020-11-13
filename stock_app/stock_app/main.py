@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, Flask, request, make_response, redirect, url_for
 from pymysql import ProgrammingError
-from .extensions import mongo, open_connection, get_companies, get_prices
+from .extensions import mongo, open_connection, get_companies, get_prices, search_by_date
 from .forms import SymSearchForm, DateSearchForm
 
 main = Blueprint('main', __name__)
@@ -30,9 +30,10 @@ def show(sym):
     
     ## Search feature
     form = DateSearchForm(request.form)
-    # if request.method == 'POST':
-    #     dt_query = form.date.data
-        # return (QUERY TABLE AND RETURN PRICES FOR THAT DATE)
+    if request.method == 'POST' and form.validate():
+        dt_query = form.date.data
+        res = search_by_date(symbol=sym, date=dt_query)  ## a list of dicts
+        return render_template('search_results.html', form=form, price_results=res)
 
     return render_template('page.html', symbol=sym, price_results=price_results, form=form)
 

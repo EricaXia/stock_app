@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, Flask, request, make_response, redirect, url_for
 from pymysql import ProgrammingError
-from .extensions import mongo, open_connection, get_companies, get_prices, search_by_date
+from .extensions import mongo, open_connection, get_companies, get_prices, search_by_date, get_current_close_price
 from .forms import SymSearchForm, DateSearchForm
 
 main = Blueprint('main', __name__)
@@ -26,7 +26,12 @@ def index():
 ## Page template to show company stock info
 @main.route('/<sym>', methods=['GET', 'POST'])
 def show(sym):
-    price_results = get_prices(symbol=sym, limit='30')  ## a list of dicts
+
+    ## SQL results for the company
+    price_results = get_prices(symbol=sym, limit='20')  ## a list of dicts
+    ## Mongo results
+    news_col = mongo.db.articles
+    mdb_results = news_col.find({ "Symbol": sym }).limit(15).sort("dt", -1)
     
     ## Search feature
     form = DateSearchForm(request.form)
@@ -35,7 +40,10 @@ def show(sym):
         res = search_by_date(symbol=sym, date=dt_query)  ## a list of dicts
         return render_template('search_results.html', form=form, price_results=res)
 
-    return render_template('page.html', symbol=sym, price_results=price_results, form=form)
+    ## Show current price
+    current_price = get_current_close_price(sym)
+
+    return render_template('page.html', symbol=sym, price_results=price_results, mdb_results=mdb_results, form=form, current_price=current_price)
 
 
 ## Page not found

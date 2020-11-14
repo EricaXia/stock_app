@@ -35,6 +35,12 @@
         </div>
       </form>
 
+      {# Current price_results #}
+      <h4>Current Close Price: ${{ current_price }}</h4>
+    </div>
+    <p>&nbsp;</p>
+     <div class="row">
+     <div class="col-lg">
       {# Price table starts here #}
       <table class="table">
         <thead>
@@ -45,7 +51,7 @@
             <th scope="col">Low</th>
             <th scope="col">Close</th>
             <th scope="col">Volume</th>
-            <th scope="col">Dividends</th>
+            {# <th scope="col">Dividends</th> #}
           </tr>
         </thead>
 
@@ -59,13 +65,39 @@
             <td>{{ p_dict['low'] }}</td>
             <td>{{ p_dict['close'] }}</td>
             <td>{{ p_dict['volume'] }}</td>
-            <td>{{ p_dict['dividends'] }}</td>
+            {# <td>{{ p_dict['dividends'] }}</td> #}
           </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
 
-    {% endblock %}
+
+    {# News articles column #}
+    <div class="col-lg">
+      <div class="mycontainer">
+        <div class="toprow">
+          <div class="myrow"><h4>News Articles</h4></div>
+        </div>
+
+        {% for res in mdb_results %}
+        <div class="card w-100">
+          <div class="card-body">
+            <h5 class="card-title"><h4><a href="{{ res['link'] }}" target="_blank">{{ res['title'] }}</a></h4>
+            <p class="card-text">{{ res['dt'] }} | {{ res['media'] }} | <b><a href="{{ res['Symbol'] }}" target="_blank">{{ res['Symbol'] }}</a></b></p>
+            <p class="card-text">{{ res['desc'] }}</p>
+
+          </div>
+        </div>
+
+        {% endfor %}
+      </div>
+    </div>
+
+</div>
+
+
+
+  {% endblock %}
   </body>
 </html>

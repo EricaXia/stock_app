@@ -1,18 +1,18 @@
 from flask import Blueprint, render_template, Flask, request, make_response, redirect, url_for
 from pymysql import ProgrammingError
-from .extensions import mongo, open_connection, get_companies, get_prices, search_by_date, get_current_close_price
+from .extensions import mongo, open_connection, get_companies, get_prices, search_by_date, get_current_close_price, get_agg_prices
 from .forms import SymSearchForm, DateSearchForm
 
 main = Blueprint('main', __name__)
 
-
+## Main Page
 @main.route('/', methods=['GET','POST'])
 def index():
 
     ## define MongoDB collection
     news_col = mongo.db.articles
     mdb_results = news_col.find().limit(15).sort("dt", -1)
-    sql_results = get_companies(limit=15)  ## a list of dicts
+    sql_results = get_companies(limit=20)  ## a list of dicts
 
     ## Search feature
     form = SymSearchForm(request.form)
@@ -28,7 +28,7 @@ def index():
 def show(sym):
 
     ## SQL results for the company
-    price_results = get_prices(symbol=sym, limit='20')  ## a list of dicts
+    price_results = get_prices(symbol=sym, limit=40)  ## a list of dicts
     ## Mongo results
     news_col = mongo.db.articles
     mdb_results = news_col.find({ "Symbol": sym }).limit(15).sort("dt", -1)
@@ -37,13 +37,26 @@ def show(sym):
     form = DateSearchForm(request.form)
     if request.method == 'POST' and form.validate():
         dt_query = form.date.data
-        res = search_by_date(symbol=sym, date=dt_query)  ## a list of dicts
-        return render_template('search_results.html', form=form, price_results=res)
+        dt_query_str = str(dt_query)
+        ## Search MySQL db for prices on a given date
+        price_res = search_by_date(symbol=sym, date=dt_query)  ## a list of dicts
+        ## Search MongoDB for news on a given dt
+        news_res = news_col.find({"Symbol": sym, "dt": dt_query_str}).limit(15).sort("dt", -1)  ## this is a cursor
+
+        return render_template('search_results.html', form=form, price_results=price_res, news_results=news_res) 
 
     ## Show current price
     current_price = get_current_close_price(sym)
 
     return render_template('page.html', symbol=sym, price_results=price_results, mdb_results=mdb_results, form=form, current_price=current_price)
+
+
+## Page template to show Spark agg info
+@main.route('/spark/<industry>', methods=['GET', 'POST'])
+def show_spark(industry):
+    ## Spark results
+    ind_results = get_agg_prices(industry=industry)
+    return render_template('industry_page.html', industry=industry)
 
 
 ## Page not found
@@ -52,7 +65,7 @@ def not_found():
     return make_response(render_template("404.html"), 404)
 
 
-## If stock taable is not found, return error page
+## If stock table is not found, return error page
 @main.errorhandler(ProgrammingError)
 def handle_error(e):
     return '<h1>Table not found!</h1>', 400

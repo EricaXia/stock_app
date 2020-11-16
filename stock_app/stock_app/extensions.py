@@ -99,6 +99,10 @@ def get_current_close_price(symbol):
     newlist.append(newdict)
     return newlist[0]['price']
 
+def get_agg_prices(industry):
+    ## TODO: implement connection to Spark data in MySQL
+    pass
+
 
 
 if __name__ == "__main__":

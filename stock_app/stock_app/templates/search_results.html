@@ -26,6 +26,7 @@
     {% block content %}
     <div class="text-center">
       <h1>{{ symbol }}</h1>
+      <h1>Search Results</h1>
 
       {# Search form #}
       {% from "_formhelpers.html" import render_field %}
@@ -34,7 +35,8 @@
         {{ render_field(form.date) }}
         </div>
       </form>
-
+     <div class="row">
+     <div class="col-lg">
       {# Price table starts here #}
       <table class="table">
         <thead>
@@ -66,6 +68,31 @@
       </table>
     </div>
 
-    {% endblock %}
+        {# News articles column #}
+        {# <p>Date Query: {{ date }}</p> #}
+    <div class="col-lg">
+      <div class="mycontainer">
+        <div class="toprow">
+          <div class="myrow"><h5>News Articles - Search Results</h5></div>
+        </div>
+
+          {% for res in news_results %}
+
+              <div class="card w-100">
+                <div class="card-body">
+                  <h5 class="card-title"><h4><a href="{{ res['link'] }}" target="_blank">{{ res['title'] }}</a></h4>
+                  <p class="card-text">{{ res['dt'] }} | {{ res['media'] }} | <b><a href="{{ res['Symbol'] }}" target="_blank">{{ res['Symbol'] }}</a></b></p>
+                  <p class="card-text">{{ res['desc'] }}</p>
+                </div>
+              </div>
+
+          {% endfor %}
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  {% endblock %}
   </body>
 </html>

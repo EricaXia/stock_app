@@ -42,8 +42,9 @@ def show(sym):
         price_res = search_by_date(symbol=sym, date=dt_query)  ## a list of dicts
         ## Search MongoDB for news on a given dt
         news_res = news_col.find({"Symbol": sym, "dt": dt_query_str}).limit(15).sort("dt", -1)  ## this is a cursor
+        new_res_list = list(news_res)
 
-        return render_template('search_results.html', form=form, price_results=price_res, news_results=news_res) 
+        return render_template('search_results.html', sym=sym, form=form, price_results=price_res, news_results=news_res, news_res_list=new_res_list) 
 
     ## Show current price
     current_price = get_current_close_price(sym)

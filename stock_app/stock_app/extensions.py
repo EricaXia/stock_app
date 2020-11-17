@@ -80,7 +80,7 @@ def search_by_date(symbol, date):
         if result > 0:
             got_p = prices
         else:
-            got_p = 'Nothing in DB'
+            got_p = []
     conn.close()
     return got_p
 

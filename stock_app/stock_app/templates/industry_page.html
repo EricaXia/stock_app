@@ -43,8 +43,7 @@
         </thead>
 
         <tbody>
-          {% for p_dict in price_results %} {# p_dict keys: date, open, high,
-          low, close, volumne, dividends #}
+          {% for p_dict in price_results %}
           <tr>
             <th scope="row">{{ p_dict['Sector'] }}</th>
             <td>{{ p_dict['Symbol'] }}</td>

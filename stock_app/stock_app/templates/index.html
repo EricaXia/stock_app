@@ -51,6 +51,7 @@
 {% block content %}
     {# Begin stock and article content display here #}
     <div class="row">
+
       {# Stock prices column #}
       <div class="col-lg">
         <div class="mycontainer">
@@ -67,10 +68,7 @@
                       <h4>
                         <a href="{{ res_dict['symbol'] }}" target="_blank">{{ res_dict['name'] }}</a>
                       </h4>
-
-
                     <p class="card-text">{{ res_dict['symbol'] }} | {{ res_dict['sector'] }}</p>
-
                   </div>
                 </div>
               </div>
@@ -86,8 +84,8 @@
           <div class="toprow">
             <div class="myrow"><h2>News Articles</h2></div>
           </div>
-
           {% for res in mdb_results %}
+          <div class="myrow">
           <div class="card w-100">
             <div class="card-body">
               <h5 class="card-title"><h4><a href="{{ res['link'] }}" target="_blank">{{ res['title'] }}</a></h4>
@@ -96,13 +94,79 @@
 
             </div>
           </div>
-
+          </div>
           {% endfor %}
         </div>
       </div>
-    </div>
 
+      {# Industries column (Spark data) #}
+      <div class="col-lg">
+        <div class="mycontainer">
+          <div class="toprow">
+            <div class="myrow"><h2>Industries</h2></div>
+          </div>
+        <div class="myrow">
+          <div class="card w-100">
+            <div class="card-body">
+              <h5 class="card-title"><h4><a href="/spark/Industry_Communication_Services" target="_blank">Communication Services</a></h4>
+            </div>
+          </div>
+          <div class="card w-100">
+            <div class="card-body">
+              <h5 class="card-title"><h4><a href="/spark/Industry_Consumer_Discretionary" target="_blank">Consumer Discretionary</a></h4>
+            </div>
+          </div>
+          <div class="card w-100">
+            <div class="card-body">
+              <h5 class="card-title"><h4><a href="/spark/Industry_Consumer_Staples" target="_blank">Consumer Staples</a></h4>
+            </div>
+          </div>
+          <div class="card w-100">
+            <div class="card-body">
+              <h5 class="card-title"><h4><a href="/spark/Industry_Energy" target="_blank">Energy </a></h4>
+            </div>
+          </div>
+          <div class="card w-100">
+            <div class="card-body">
+              <h5 class="card-title"><h4><a href="/spark/Industry_Financials" target="_blank">Financials</a></h4>
+            </div>
+          </div>
+          <div class="card w-100">
+            <div class="card-body">
+              <h5 class="card-title"><h4><a href="/spark/Industry_Health_Care" target="_blank">Health Care</a></h4>
+            </div>
+          </div>
+          <div class="card w-100">
+            <div class="card-body">
+              <h5 class="card-title"><h4><a href="/spark/Industry_Industrials" target="_blank">Industrials</a></h4>
+            </div>
+          </div>
+          <div class="card w-100">
+            <div class="card-body">
+              <h5 class="card-title"><h4><a href="/spark/Industry_Information_Technology" target="_blank">Information Technology</a></h4>
+            </div>
+          </div>
+          <div class="card w-100">
+            <div class="card-body">
+              <h5 class="card-title"><h4><a href="/spark/Industry_Materials" target="_blank">Materials</a></h4>
+            </div>
+          </div>
+          <div class="card w-100">
+            <div class="card-body">
+              <h5 class="card-title"><h4><a href="/spark/Industry_Real_Estate" target="_blank">Real Estate</a></h4>
+            </div>
+          </div>
+          <div class="card w-100">
+            <div class="card-body">
+              <h5 class="card-title"><h4><a href="/spark/Industry_Utilities" target="_blank">Utilities</a></h4>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
 
+{# Ends the row #}
+    </div> 
 
     {% endblock %}
   </body>

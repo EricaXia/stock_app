@@ -23,9 +23,11 @@
   </head>
 
   <body>
+  
     {% block content %}
+    <a href="/" role="button" class="btn btn-light">Go back</a>
     <div class="text-center">
-      <h1>{{ symbol }}</h1>
+      <h1>{{ c_name}} ({{ symbol }})</h1>
 
       {# Stock Price Date search form #}
       {% from "_formhelpers.html" import render_field %}
@@ -37,7 +39,14 @@
 
       {# Current price_results #}
       <h4>Current Close Price: ${{ current_price }}</h4>
+
+      {# Link to Industry page #}
+      <h4>Industry: <a href="{{ ind_link }}" target="_blank">{{ industry }}</a></h4>
     </div>
+
+
+
+
     <p>&nbsp;</p>
      <div class="row">
      <div class="col-lg">

@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, Flask, request, make_response, redirect, url_for
 from pymysql import ProgrammingError
-from .extensions import mongo, open_connection, get_companies, get_prices, search_by_date, get_current_close_price, get_agg_prices
+from .extensions import mongo, open_connection, get_companies, get_company_name_sector, get_prices, search_by_date, get_current_close_price, get_agg_prices
 from .forms import SymSearchForm, DateSearchForm
 
 main = Blueprint('main', __name__)
@@ -48,8 +48,13 @@ def show(sym):
 
     ## Show current price
     current_price = get_current_close_price(sym)
-
-    return render_template('page.html', symbol=sym, price_results=price_results, mdb_results=mdb_results, form=form, current_price=current_price)
+    ## Get full company name
+    name_sector = get_company_name_sector(sym)
+    c_name = name_sector['name']
+    s_name = name_sector['sector']
+    ind_link0 = "Industry_" + s_name.replace(" ", "_")
+    ind_link = f"/spark/{ind_link0}"
+    return render_template('page.html', symbol=sym, price_results=price_results, mdb_results=mdb_results, form=form, current_price=current_price, c_name=c_name, industry=s_name, ind_link=ind_link)
 
 
 ## Page template to show Spark agg info

@@ -47,6 +47,23 @@ def get_companies(limit):
     conn.close()
     return got_c
 
+def get_company_name_sector(symbol):
+    conn = open_connection()
+    with conn.cursor() as cursor:
+        q = f"""
+        SELECT name, sector FROM CompanyInformation
+        WHERE symbol = '{symbol}'
+        LIMIT 1;
+        """
+        result = cursor.execute(q)
+        company = cursor.fetchall()
+        if result > 0:
+            # got_c = jsonify(companies)
+            results = company[0]
+        else:
+            results = 'Nothing in DB'
+    conn.close()
+    return results   ## dictionary 
 
 def get_prices(symbol, limit):
     conn = open_connection()
@@ -99,8 +116,9 @@ def get_current_close_price(symbol):
     newlist.append(newdict)
     return newlist[0]['price']
 
+
 def get_agg_prices(industry):
-    ## `industry` argument should be a table name
+    # `industry` argument should be a table name
     conn = open_connection()
     with conn.cursor() as cursor:
         q = f"""
@@ -116,12 +134,10 @@ def get_agg_prices(industry):
     conn.close()
     return got_p
 
-
-
-
 if __name__ == "__main__":
     print("Test db connection to MySQL")
     # print(get_companies(limit=15))
+    print(get_company_name_sector('A'))
 
     # prices = get_prices('A', 10)
     # for p in prices:
@@ -131,4 +147,3 @@ if __name__ == "__main__":
     # print(search_by_date('AAPL', '2020-11-02'))
 
     # print(get_current_close_price('AAPL'))
-

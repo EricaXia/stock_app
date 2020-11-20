@@ -100,8 +100,22 @@ def get_current_close_price(symbol):
     return newlist[0]['price']
 
 def get_agg_prices(industry):
-    ## TODO: implement connection to Spark data in MySQL
-    pass
+    ## `industry` argument should be a table name
+    conn = open_connection()
+    with conn.cursor() as cursor:
+        q = f"""
+            SELECT *
+            FROM {industry};
+        """
+        result = cursor.execute(q)
+        prices = cursor.fetchall()
+        if result > 0:
+            got_p = prices
+        else:
+            got_p = []
+    conn.close()
+    return got_p
+
 
 
 

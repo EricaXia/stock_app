@@ -57,7 +57,7 @@ def show(sym):
 def show_spark(industry):
     ## Spark results
     ind_results = get_agg_prices(industry=industry)
-    return render_template('industry_page.html', industry=industry)
+    return render_template('industry_page.html', industry=industry, price_results=ind_results)
 
 
 ## Page not found

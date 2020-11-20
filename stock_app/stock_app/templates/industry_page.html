@@ -25,10 +25,41 @@
   <body>
     {% block content %}
     <div class="text-center">
-      <h1>{{ industry }} - Spark Aggregated Data</h1>
-      <p>Put Spark data here</p>
+      <h1>{{ industry }} - Spark Data</h1>
+       <div class="row">
+     <div class="col-lg">
+      {# Price table starts here #}
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Sector</th>
+            <th scope="col">Symbol</th>
+            <th scope="col">Period_High</th>
+            <th scope="col">High_Date</th>
+            <th scope="col">Period_Low</th>
+            <th scope="col">Low_Date</th>
+            {# <th scope="col">Dividends</th> #}
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for p_dict in price_results %} {# p_dict keys: date, open, high,
+          low, close, volumne, dividends #}
+          <tr>
+            <th scope="row">{{ p_dict['Sector'] }}</th>
+            <td>{{ p_dict['Symbol'] }}</td>
+            <td>{{ p_dict['Period_High'] }}</td>
+            <td>{{ p_dict['High_Date'] }}</td>
+            <td>{{ p_dict['Period_Low'] }}</td>
+            <td>{{ p_dict['Low_Date'] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    </div>
 
 
-
+{% endblock %}
   </body>
 </html>

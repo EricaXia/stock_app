@@ -134,6 +134,24 @@ def get_agg_prices(industry):
     conn.close()
     return got_p
 
+
+def search_by_sym(sym, industry):
+    conn = open_connection()
+    with conn.cursor() as cursor:
+        q = f"""
+            SELECT *
+            FROM {industry}
+            WHERE Symbol = '{sym}';
+        """
+        result = cursor.execute(q)
+        prices = cursor.fetchall()
+        if result > 0:
+            got_p = prices
+        else:
+            got_p = []
+    conn.close()
+    return got_p
+
 if __name__ == "__main__":
     print("Test db connection to MySQL")
     # print(get_companies(limit=15))

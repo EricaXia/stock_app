@@ -27,7 +27,7 @@
     <a href="/" role="button" class="btn btn-light">Go back</a>
     <div class="text-center">
       <h1>Industry: {{ industry_name }}</h1>
-      <h3>Aggregated Spark Data</h3>
+      <h3>Search Results</h3>
 
     {# Search form #}
       {% from "_formhelpers.html" import render_field %}
@@ -54,7 +54,7 @@
         </thead>
 
         <tbody>
-          {% for p_dict in price_results %}
+          {% for p_dict in sym_res_list %}
           <tr>
             <th scope="row">{{ p_dict['Sector'] }}</th>
             <td>{{ p_dict['Symbol'] }}</td>

@@ -1,20 +1,22 @@
 from flask import Blueprint, render_template, Flask, request, make_response, redirect, url_for
 from pymysql import ProgrammingError
-from .extensions import mongo, open_connection, get_companies, get_company_name_sector, get_prices, search_by_date, get_current_close_price, get_agg_prices
+from .extensions import mongo, open_connection, get_companies, get_company_name_sector, get_prices, search_by_date, get_current_close_price, get_agg_prices, search_by_sym
 from .forms import SymSearchForm, DateSearchForm
 
 main = Blueprint('main', __name__)
 
-## Main Page
-@main.route('/', methods=['GET','POST'])
+# Main Page
+
+
+@main.route('/', methods=['GET', 'POST'])
 def index():
 
-    ## define MongoDB collection
+    # define MongoDB collection
     news_col = mongo.db.articles
     mdb_results = news_col.find().limit(15).sort("dt", -1)
-    sql_results = get_companies(limit=20)  ## a list of dicts
+    sql_results = get_companies(limit=20)  # a list of dicts
 
-    ## Search feature
+    # Search feature
     form = SymSearchForm(request.form)
     if request.method == 'POST':
         sym_query = form.symbol.data
@@ -23,32 +25,34 @@ def index():
     return render_template('index.html', mdb_results=mdb_results, sql_results=sql_results, form=form)
 
 
-## Page template to show company stock info
+# Page template to show company stock info
 @main.route('/<sym>', methods=['GET', 'POST'])
 def show(sym):
 
-    ## SQL results for the company
-    price_results = get_prices(symbol=sym, limit=40)  ## a list of dicts
-    ## Mongo results
+    # SQL results for the company
+    price_results = get_prices(symbol=sym, limit=40)  # a list of dicts
+    # Mongo results
     news_col = mongo.db.articles
-    mdb_results = news_col.find({ "Symbol": sym }).limit(15).sort("dt", -1)
-    
-    ## Search feature
+    mdb_results = news_col.find({"Symbol": sym}).limit(15).sort("dt", -1)
+
+    # Search feature
     form = DateSearchForm(request.form)
     if request.method == 'POST' and form.validate():
         dt_query = form.date.data
         dt_query_str = str(dt_query)
-        ## Search MySQL db for prices on a given date
-        price_res = search_by_date(symbol=sym, date=dt_query)  ## a list of dicts
-        ## Search MongoDB for news on a given dt
-        news_res = news_col.find({"Symbol": sym, "dt": dt_query_str}).limit(15).sort("dt", -1)  ## this is a cursor
+        # Search MySQL db for prices on a given date
+        price_res = search_by_date(
+            symbol=sym, date=dt_query)  # a list of dicts
+        # Search MongoDB for news on a given dt
+        news_res = news_col.find({"Symbol": sym, "dt": dt_query_str}).limit(
+            15).sort("dt", -1)  # this is a cursor
         new_res_list = list(news_res)
 
-        return render_template('search_results.html', sym=sym, form=form, price_results=price_res, news_results=news_res, news_res_list=new_res_list) 
+        return render_template('search_results.html', sym=sym, form=form, price_results=price_res, news_results=news_res, news_res_list=new_res_list)
 
-    ## Show current price
+    # Show current price
     current_price = get_current_close_price(sym)
-    ## Get full company name
+    # Get full company name
     name_sector = get_company_name_sector(sym)
     c_name = name_sector['name']
     s_name = name_sector['sector']
@@ -57,22 +61,31 @@ def show(sym):
     return render_template('page.html', symbol=sym, price_results=price_results, mdb_results=mdb_results, form=form, current_price=current_price, c_name=c_name, industry=s_name, ind_link=ind_link)
 
 
-## Page template to show Spark agg info
+# Page template to show Spark agg info
 @main.route('/spark/<industry>', methods=['GET', 'POST'])
 def show_spark(industry):
-    ## Spark results
+    # Spark results
     ind_results = get_agg_prices(industry=industry)
     industry_name = " ".join(industry.split('_')[1:])
-    return render_template('industry_page.html', industry=industry, industry_name=industry_name, price_results=ind_results)
+
+    # Search feature
+    form = SymSearchForm(request.form)
+    if request.method == 'POST' and form.validate():
+        sym_query = form.symbol.data
+        sym_res = search_by_sym(sym=sym_query, industry=industry)
+        sym_res_list = list(sym_res)
+        return render_template('industry_search_results.html', industry=industry, industry_name=industry_name, sym=sym_query, form=form, sym_res_list=sym_res_list)
+
+    return render_template('industry_page.html', industry=industry, industry_name=industry_name, price_results=ind_results, form=form)
 
 
-## Page not found
+# Page not found
 @main.errorhandler(404)
 def not_found():
     return make_response(render_template("404.html"), 404)
 
 
-## If stock table is not found, return error page
+# If stock table is not found, return error page
 @main.errorhandler(ProgrammingError)
 def handle_error(e):
     return '<h1>Table not found!</h1>', 400

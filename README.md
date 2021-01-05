@@ -1,5 +1,5 @@
-# DSCI 551 Group Project - Fall 2020
- Github repo to store code for our DSCI 551 stock prices project.
+# Stock Prices App
+ Github repo to store code for stock prices app.
 
 ### How to Start the App
 1. Install necessary packages (listed in requirements.txt)
